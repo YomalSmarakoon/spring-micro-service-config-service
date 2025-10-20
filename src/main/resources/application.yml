@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: config-server
+
+  profiles:
+    active: native, git
+
+  cloud:
+    config:
+      #Local configuration: This locations can either of
+      # classpath or locations in the filesystem.
+      server:
+#        native:
+#          #Reads from a specific filesystem folder
+#          search-locations: classpath:/config
+#          #file:///Users/illary.huaylupo
+        git:
+          uri: https://github.com/YomalSmarakoon/spring-micro-service-config.git
+          searchPaths: config
+server:
+  port: 8071
