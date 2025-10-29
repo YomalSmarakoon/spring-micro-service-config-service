@@ -1,21 +1,36 @@
+server:
+  port: 8071
+
 spring:
   application:
     name: config-server
-
   profiles:
-    active: native, git
-
+    # you need to enable active Profile Vault to make Spring easily
+    # connect to Vault
+    active: vault
   cloud:
     config:
       #Local configuration: This locations can either of
       # classpath or locations in the filesystem.
       server:
+        vault:
+          # tell the connection host
+          host: localhost
+          # tell the connection port
+          port: 8200
+          # tell the scheme, it could be http/https
+          scheme: http
+          # it is recommended to use kvVersion of 2
+          kvVersion: 2
+          # the backend name
+          backend: licensing-service  # Match your Vault mount point
+          default-key: default        # Your specific path
+          authentication: TOKEN
+          token: myroot
 #        native:
 #          #Reads from a specific filesystem folder
 #          search-locations: classpath:/config
 #          #file:///Users/illary.huaylupo
-        git:
-          uri: https://github.com/YomalSmarakoon/spring-micro-service-config.git
-          searchPaths: config
-server:
-  port: 8071
+#        git:
+#          uri: https://github.com/YomalSmarakoon/spring-micro-service-config.git
+#          searchPaths: config
