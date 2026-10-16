@@ -1,0 +1,33 @@
+# Add this file to the config repo
+
+server:
+  port: 8072
+
+eureka:
+  instance:
+    hostname: localhost     # Hostname of the Eureka instance
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8070/eureka/
+  server:
+    waitTimeInMsWhenSyncEmpty: 5   # Wait time before accepting requests
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+#          removing discovery locator
+#          discovery:
+#            locator:
+#              enabled: true
+#              lower-case-service-id: true
+          routes:
+            - id: organization-service
+              uri: lb://organization-service
+              predicates:
+              - Path=/organization/**
+              filters:
+              - RewritePath=/organization/(?<path>.*), /$\{path}

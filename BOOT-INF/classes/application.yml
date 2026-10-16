@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: config-server
+
+  profiles:
+    active: vault # native, git
+
+  cloud:
+    config:
+      #Local configuration: This locations can either of
+      # classpath or locations in the filesystem.
+      server:
+        vault:
+          uri: http://vault:8200   # 👈 use the container name, not localhost
+          token: myroot
+          kv:
+            enabled: true
+            backend: secret
+            defaultKey: licensing-service
+            version: 2               # 👈 IMPORTANT
+#            profile-separator: ','   # because your key is licensing-service,dev
+
+#        native:
+#          #Reads from a specific filesystem folder
+#          search-locations: classpath:/config
+#          #file:///Users/illary.huaylupo
+#        git:
+#          uri: https://github.com/YomalSmarakoon/spring-micro-service-config.git
+#          searchPaths: config
+server:
+  port: 8071
+
+#management:
+#  metrics:
+#    enable:
+#      process:
+#        processor: false
+#      system: false
